@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#782f36">
+  <meta name="description" content="輸入西元或民國日期，立即換算泰國佛曆、星期與生肖。支援繁體中文與泰文。แปลงวันที่เป็น พ.ศ. พร้อมวันในสัปดาห์และปีนักษัตรจีน">
+  <title>好日子 วันดี｜中泰佛曆換算</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#converter" data-i18n="skip">跳至日期換算</a>
+  <header class="site-header page-width">
+    <a class="brand" href="./" aria-label="好日子 วันดี">
+      <span class="brand-mark" aria-hidden="true">✳</span>
+      <span class="brand-name">好日子 <span lang="th">วันดี</span></span>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <span class="brand-caption" data-i18n="brandCaption">中泰日期換算</span>
+    </a>
+    <nav class="language-switch" aria-label="語言 / ภาษา">
+      <button type="button" data-language="zh" lang="zh-Hant" aria-pressed="true">繁中</button>
+      <button type="button" data-language="th" lang="th" aria-pressed="false">ไทย</button>
+    </nav>
+  </header>
+
+  <main class="page-width">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow"><span aria-hidden="true"></span> TAIWAN & THAILAND</p>
+        <h1 id="page-title"><span data-i18n="heroFirst">同一天，</span><span class="accent" data-i18n="heroSecond">換個曆法。</span></h1>
+        <p class="hero-description" data-i18n="intro">從熟悉的日期出發，輕鬆看懂泰國佛曆、星期與生肖。</p>
+      </div>
+      <div class="hero-seal" aria-hidden="true"><span>ค.ศ. → พ.ศ.</span><strong>+543</strong><span data-i18n="seal">連結每一個好日子</span></div>
+    </section>
+
+    <section class="converter" id="converter" aria-label="日期換算 / แปลงวันที่">
+      <form id="date-form" class="input-panel" novalidate>
+        <div class="panel-heading"><span class="step-number">01</span><h2 data-i18n="inputHeading">輸入你的日期</h2></div>
+        <p class="panel-description" data-i18n="inputDescription">選擇曆法，填入年月日就會自動換算。</p>
+
+        <fieldset class="era-fieldset">
+          <legend class="sr-only" data-i18n="eraLegend">輸入日期的曆法</legend>
+          <div class="era-switch">
+            <label><input type="radio" name="era" value="ce" checked><span data-i18n="ceTab">西元 AD</span></label>
+            <label><input type="radio" name="era" value="roc"><span data-i18n="rocTab">民國 ROC</span></label>
+          </div>
+        </fieldset>
+
+        <div class="date-fields">
+          <div class="field year-field"><label for="year" id="year-label">西元年</label><input id="year" name="year" type="text" inputmode="numeric" autocomplete="off" maxlength="6" aria-describedby="year-hint form-error" required></div>
+          <div class="field month-field"><label for="month" data-i18n="month">月</label><select id="month" name="month" aria-describedby="form-error" required></select></div>
+          <div class="field day-field"><label for="day" data-i18n="day">日</label><input id="day" name="day" type="text" inputmode="numeric" autocomplete="off" maxlength="4" aria-describedby="form-error" required></div>
+        </div>
+        <div class="date-helper"><span id="year-hint"></span><button type="button" class="text-button" id="today-button"><span aria-hidden="true">↺</span> <span data-i18n="today">帶入今天</span></button></div>
+
+        <div class="field zodiac-field"><label for="zodiac-rule" data-i18n="zodiacRule">生肖換年方式</label><select id="zodiac-rule" name="zodiac-rule"><option value="lunar" data-i18n="lunarOption">農曆春節（一般生肖）</option><option value="solar" data-i18n="solarOption">西元 1 月 1 日（年份對照）</option></select></div>
+        <p class="field-note" id="zodiac-help"></p>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <button class="primary-button" type="submit"><span data-i18n="convert">換算日期</span><span aria-hidden="true">↗</span></button>
+        <p class="auto-note"><span class="status-dot" aria-hidden="true"></span><span data-i18n="autoNote">輸入即換算，不必等待</span></p>
+      </form>
+
+      <section class="result-panel" aria-labelledby="result-heading">
+        <div class="result-topline"><div class="panel-heading"><span class="step-number">02</span><h2 id="result-heading" data-i18n="resultHeading">你的泰國日期</h2></div><span class="result-badge" id="result-badge" data-i18n="updated">已換算</span></div>
+        <div id="result-content">
+          <div class="buddhist-date"><p class="result-eyebrow" data-i18n="buddhistLabel">泰國佛曆 · พุทธศักราช</p><div class="date-display"><span id="be-year">—</span><span class="date-detail"><span id="be-era-label">佛曆年</span><strong id="be-month-day">—</strong></span></div><p class="thai-date" lang="th" id="thai-date">—</p></div>
+          <div class="result-facts">
+            <div class="fact"><span class="fact-icon weekday-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 10h16m-12 4h3m2 0h3m-8 3h3"/></svg></span><div><span class="fact-label" data-i18n="weekdayLabel">星期</span><strong id="weekday">—</strong><span class="fact-secondary" id="weekday-secondary" lang="th">—</span></div></div>
+            <div class="fact"><span class="fact-icon zodiac-icon" id="zodiac-icon" aria-hidden="true">✧</span><div><span class="fact-label" id="zodiac-label">生肖</span><strong id="zodiac">—</strong><span class="fact-secondary" id="zodiac-secondary" lang="th">—</span></div></div>
+          </div>
+          <dl class="date-comparison"><div><dt data-i18n="ceLabel">西元</dt><dd id="ce-result">—</dd></div><div><dt data-i18n="rocLabel">民國</dt><dd id="roc-result">—</dd></div></dl>
+          <p class="historical-note" id="historical-note" data-i18n="historicalNote" hidden>此日期早於 1941 年，佛曆以現行「西元＋543」回推，不代表當時泰國官方的舊制紀年。</p>
+          <p class="historical-note" id="unsupported-note" data-i18n="unsupportedNote" hidden>此瀏覽器無法計算農曆生肖，請使用較新版本的瀏覽器，或改選「西元 1 月 1 日」。</p>
+          <button type="button" class="copy-button" id="copy-button"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg><span data-i18n="copy">複製換算結果</span></button>
+        </div>
+        <div class="empty-result" id="empty-result" hidden><span aria-hidden="true">↗</span><h3 data-i18n="emptyTitle">等待一個有效日期</h3><p data-i18n="emptyDescription">填好年月日，你的泰國日期就會出現在這裡。</p></div>
+      </section>
+    </section>
+    <p class="sr-only" id="live-result" role="status" aria-live="polite" aria-atomic="true"></p>
+    <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+    <div class="manual-copy" id="manual-copy" hidden><label for="copy-text" data-i18n="copyFallback">無法自動複製，請選取以下文字後複製。</label><textarea id="copy-text" readonly rows="7"></textarea></div>
+
+    <section class="explainer" aria-labelledby="explainer-heading">
+      <div class="section-title"><h2 id="explainer-heading" data-i18n="explainerHeading">關於日期的三件小事</h2><span aria-hidden="true">✳</span></div>
+      <div class="explainer-grid">
+        <article><span class="article-number">01 /</span><h3 data-i18n="explainBeTitle">佛曆，比西元多 543 年</h3><p data-i18n="explainBeBody">泰國日常使用佛曆紀年，月份與日期和西元相同。例如西元 2026 年，就是佛曆 2569 年。</p></article>
+        <article><span class="article-number">02 /</span><h3 data-i18n="explainRocTitle">民國，也能直接換算</h3><p data-i18n="explainRocBody">民國年加 1911 就是西元年，再加 543 即為佛曆。例如民國 115 年＝西元 2026 年＝佛曆 2569 年。</p></article>
+        <article><span class="article-number">03 /</span><h3 data-i18n="explainZodiacTitle">生肖，要留意換年那一天</h3><p data-i18n="explainZodiacBody">預設依農曆正月初一換生肖，一、二月可能仍屬前一年的生肖。這裡提供華人生肖及泰文名稱，未採立春或泰國傳統換年法。</p></article>
+      </div>
+    </section>
+
+    <details class="method-details"><summary><span data-i18n="methodHeading">換算範圍與參考資料</span><span class="details-plus" aria-hidden="true">+</span></summary><div><p data-i18n="methodBody">支援西元 1901–2100 年；民國輸入限 1–189 年（1912–2100）。佛曆統一採現行西元＋543；1941 年以前的日期會另行提示。星期依輸入的日曆日期計算，不進行時區換日；「今天」採裝置日期。</p><p data-i18n="methodSources">生肖以農曆年為預設，也可切換為西元年份對照。曆法與生肖資料可參考：</p><ul><li><a href="https://www.hko.gov.hk/tc/gts/time/12animals.htm" target="_blank" rel="noopener noreferrer" data-i18n="sourceZodiac">香港天文台｜十二生肖 ↗</a></li><li><a href="https://www.hko.gov.hk/tc/gts/time/conversion.htm" target="_blank" rel="noopener noreferrer" data-i18n="sourceCalendar">香港天文台｜公曆與農曆對照表 ↗</a></li><li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/calendar.doc.html" target="_blank" rel="noopener noreferrer" data-i18n="sourceBe">Oracle｜泰國佛曆說明 ↗</a></li></ul></div></details>
+    <noscript><p class="noscript-message">請開啟 JavaScript 以使用日期換算。กรุณาเปิด JavaScript เพื่อแปลงวันที่</p></noscript>
+  </main>
+
+  <footer class="site-footer page-width"><span class="footer-brand">好日子 <span lang="th">วันดี</span></span><span data-i18n="privacy">日期只在你的裝置換算，不會上傳或儲存。</span><span>TAIWAN ↔ THAILAND</span></footer>
+</body>
+</html>
