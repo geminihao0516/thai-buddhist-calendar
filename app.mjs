@@ -8,9 +8,12 @@ const monthInput = byId('month');
 const dayInput = byId('day');
 const ruleInput = byId('zodiac-rule');
 let language = navigator.language?.toLowerCase().startsWith('th') ? 'th' : 'zh';
+let fontSize = 'standard';
 try {
   const savedLanguage = localStorage.getItem('wandee-language');
   if (['zh', 'th'].includes(savedLanguage)) language = savedLanguage;
+  const savedFontSize = localStorage.getItem('wandee-font-size');
+  if (['standard', 'large', 'xlarge'].includes(savedFontSize)) fontSize = savedFontSize;
 } catch { /* 私密瀏覽或禁止儲存時仍可使用所有換算功能。 */ }
 let era = 'ce';
 let currentResult = null;
@@ -88,6 +91,25 @@ function updateYearHint() {
   yearInput.placeholder = era === 'ce' ? '2026' : '115';
 }
 
+function applyFontSize({ announceChange = false } = {}) {
+  const t = translations[language];
+  const labels = {
+    standard: t.fontStandard,
+    large: t.fontLarge,
+    xlarge: t.fontExtraLarge,
+  };
+  document.documentElement.dataset.fontSize = fontSize;
+  for (const button of document.querySelectorAll('button[data-font-size]')) {
+    const selected = button.dataset.fontSize === fontSize;
+    button.setAttribute('aria-pressed', String(selected));
+    button.setAttribute('aria-label', labels[button.dataset.fontSize]);
+    button.title = labels[button.dataset.fontSize];
+  }
+  if (announceChange) {
+    setText('preference-status', t.fontChanged.replace('{size}', labels[fontSize]));
+  }
+}
+
 function applyLanguage() {
   const t = translations[language];
   document.documentElement.lang = language === 'zh' ? 'zh-Hant' : 'th';
@@ -98,6 +120,7 @@ function applyLanguage() {
   for (const button of document.querySelectorAll('[data-language]')) {
     button.setAttribute('aria-pressed', String(button.dataset.language === language));
   }
+  applyFontSize();
   const selectedMonth = monthInput.value || '1';
   monthInput.replaceChildren(...Array.from({ length: 12 }, (_, index) => {
     const option = document.createElement('option');
@@ -123,6 +146,14 @@ for (const button of document.querySelectorAll('[data-language]')) {
     language = button.dataset.language;
     try { localStorage.setItem('wandee-language', language); } catch { /* 語言偏好儲存可略過。 */ }
     applyLanguage();
+  });
+}
+
+for (const button of document.querySelectorAll('button[data-font-size]')) {
+  button.addEventListener('click', () => {
+    fontSize = button.dataset.fontSize;
+    try { localStorage.setItem('wandee-font-size', fontSize); } catch { /* 字級偏好儲存可略過。 */ }
+    applyFontSize({ announceChange: true });
   });
 }
 
@@ -167,7 +198,7 @@ byId('copy-button').addEventListener('click', async () => {
   }
 });
 
-// 僅保存語言偏好，日期每次開啟都從裝置的今天開始。
+// 僅保存語言與字級偏好，日期每次開啟都從裝置的今天開始。
 const today = new Date();
 yearInput.value = String(today.getFullYear());
 dayInput.value = String(today.getDate());

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-font-size="standard">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,10 +19,18 @@
       <span class="brand-divider" aria-hidden="true"></span>
       <span class="brand-caption" data-i18n="brandCaption">中泰日期換算</span>
     </a>
-    <nav class="language-switch" aria-label="語言 / ภาษา">
-      <button type="button" data-language="zh" lang="zh-Hant" aria-pressed="true">繁中</button>
-      <button type="button" data-language="th" lang="th" aria-pressed="false">ไทย</button>
-    </nav>
+    <div class="header-tools">
+      <div class="font-size-control" role="group" aria-labelledby="font-size-label">
+        <span class="sr-only" id="font-size-label" data-i18n="fontSizeLabel">字體</span>
+        <button type="button" data-font-size="standard" aria-pressed="true">A</button>
+        <button type="button" data-font-size="large" aria-pressed="false">A+</button>
+        <button type="button" data-font-size="xlarge" aria-pressed="false">A++</button>
+      </div>
+      <nav class="language-switch" aria-label="語言 / ภาษา">
+        <button type="button" data-language="zh" lang="zh-Hant" aria-pressed="true">繁中</button>
+        <button type="button" data-language="th" lang="th" aria-pressed="false">ไทย</button>
+      </nav>
+    </div>
   </header>
 
   <main class="page-width">
@@ -79,6 +87,7 @@
       </section>
     </section>
     <p class="sr-only" id="live-result" role="status" aria-live="polite" aria-atomic="true"></p>
+    <p class="sr-only" id="preference-status" role="status" aria-live="polite" aria-atomic="true"></p>
     <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
     <div class="manual-copy" id="manual-copy" hidden><label for="copy-text" data-i18n="copyFallback">無法自動複製，請選取以下文字後複製。</label><textarea id="copy-text" readonly rows="7"></textarea></div>
 

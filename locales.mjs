@@ -7,6 +7,8 @@ export const translations = {
   zh: {
     title: '好日子 วันดี｜中泰佛曆換算',
     skip: '跳至日期換算', brandCaption: '中泰日期換算',
+    fontSizeLabel: '字體', fontStandard: '標準字體', fontLarge: '大字體',
+    fontExtraLarge: '特大字體', fontChanged: '已切換為{size}',
     heroFirst: '同一天，', heroSecond: '換個曆法。',
     intro: '從熟悉的日期出發，輕鬆看懂泰國佛曆、星期與生肖。',
     seal: '連結每一個好日子',
@@ -54,6 +56,8 @@ export const translations = {
   th: {
     title: 'วันดี 好日子｜แปลงวันที่เป็น พ.ศ.',
     skip: 'ข้ามไปแปลงวันที่', brandCaption: 'แปลงวันที่ไต้หวัน–ไทย',
+    fontSizeLabel: 'ขนาดตัวอักษร', fontStandard: 'ตัวอักษรปกติ', fontLarge: 'ตัวอักษรใหญ่',
+    fontExtraLarge: 'ตัวอักษรใหญ่มาก', fontChanged: 'เปลี่ยนเป็น{size}แล้ว',
     heroFirst: 'วันเดียวกัน ', heroSecond: 'ต่างศักราช',
     intro: 'แปลงวันที่ที่คุ้นเคยเป็น พ.ศ. พร้อมวันในสัปดาห์และปีนักษัตรจีน',
     seal: 'เชื่อมทุกวันดี ๆ',
